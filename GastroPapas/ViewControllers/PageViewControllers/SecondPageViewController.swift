@@ -18,7 +18,7 @@ final class SecondPageViewController: UIViewController {
         return label
     }()
     
-    private let buttonSkip: UIButton = {
+    private lazy var buttonSkip: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Забронировать столик", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
@@ -26,7 +26,7 @@ final class SecondPageViewController: UIViewController {
         button.backgroundColor = .black
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.addTarget(FirstPageViewController.self, action: #selector(buttonSkipTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonSkipTapped), for: .touchUpInside)
         return button
     }()
     
@@ -75,6 +75,8 @@ final class SecondPageViewController: UIViewController {
     }
     
     @objc private func buttonSkipTapped() {
-        print("buttonSkipTapped worked")
+        let contactsVC = ContactsViewController()
+        contactsVC.modalPresentationStyle = .fullScreen
+        present(contactsVC, animated: true)
     }
 }

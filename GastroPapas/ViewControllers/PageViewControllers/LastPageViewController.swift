@@ -1,5 +1,5 @@
 //
-//  FirstPageViewController.swift
+//  LastPageViewController.swift
 //  GastroPapas
 //
 //  Created by Никита Нагорный on 26.09.2025.
@@ -7,35 +7,33 @@
 
 import UIKit
 
-final class FirstPageViewController: UIViewController {
+final class LastPageViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Добро пожаловать\nв GastroПапы"
+        label.text = "Доставим на дом"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 34, weight: .bold)
+        label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textAlignment = .center
-        label.numberOfLines = 0
         return label
     }()
     
-    private let buttonSkip: UIButton = {
+    private lazy var buttonSkip: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Меню", for: .normal)
+        button.setTitle("Заказать", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .black
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.addTarget(FirstPageViewController.self, action: #selector(buttonSkipTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonSkipTapped), for: .touchUpInside)
         return button
     }()
     
     private let backgrountImageView: UIImageView = {
         let backgroundView = UIImageView()
-        let image = UIImage(named: "FirstPageView")
+        let image = UIImage(named: "LastPageView")
         backgroundView.image = image
-        backgroundView.contentMode = .scaleAspectFill
         backgroundView.alpha = 0.8
         return backgroundView
     }()
@@ -77,6 +75,8 @@ final class FirstPageViewController: UIViewController {
     }
     
     @objc private func buttonSkipTapped() {
-        print("buttonSkipTapped worked")
+        let deliveryVC = DeliveryViewController()
+        deliveryVC.modalPresentationStyle = .fullScreen
+        present(deliveryVC, animated: true)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  LastPageViewController.swift
+//  FirstPageViewController.swift
 //  GastroPapas
 //
 //  Created by Никита Нагорный on 26.09.2025.
@@ -7,33 +7,35 @@
 
 import UIKit
 
-final class LastPageViewController: UIViewController {
+final class FirstPageViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Доставим на дом"
+        label.text = "Добро пожаловать\nв GastroПапы"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 32, weight: .bold)
+        label.font = .systemFont(ofSize: 34, weight: .bold)
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
     
-    private let buttonSkip: UIButton = {
+    private lazy var buttonSkip: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Доставка", for: .normal)
+        button.setTitle("Меню", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .black
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.addTarget(FirstPageViewController.self, action: #selector(buttonSkipTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonSkipTapped), for: .touchUpInside)
         return button
     }()
     
     private let backgrountImageView: UIImageView = {
         let backgroundView = UIImageView()
-        let image = UIImage(named: "LastPageView")
+        let image = UIImage(named: "FirstPageView")
         backgroundView.image = image
+        backgroundView.contentMode = .scaleAspectFill
         backgroundView.alpha = 0.8
         return backgroundView
     }()
@@ -75,6 +77,8 @@ final class LastPageViewController: UIViewController {
     }
     
     @objc private func buttonSkipTapped() {
-        print("buttonSkipTapped worked")
+        let tabBarController = TabBarController()
+        tabBarController.modalPresentationStyle = .fullScreen
+        present(tabBarController, animated: true)
     }
 }
