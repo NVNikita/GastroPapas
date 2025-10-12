@@ -12,8 +12,7 @@ final class PageViewController: UIPageViewController, UIPageViewControllerDelega
     private lazy var pages: [UIViewController] = {
         let firstViewController = FirstPageViewController()
         let secondViewController = SecondPageViewController()
-        let lastviewcontroller = LastPageViewController()
-        return [firstViewController, secondViewController, lastviewcontroller]
+        return [firstViewController, secondViewController]
     }()
     
     private lazy var pageControl: UIPageControl = {

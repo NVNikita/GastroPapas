@@ -12,7 +12,6 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         
         let menuVC = MenuViewController()
-        let deliveryVC = DeliveryViewController()
         let contactsVC = ContactsViewController()
         
         let menuNavController = UINavigationController(rootViewController: menuVC)
@@ -23,19 +22,13 @@ final class TabBarController: UITabBarController {
             selectedImage: nil
         )
         
-        deliveryVC.tabBarItem = UITabBarItem(
-            title: "Доставка",
-            image: UIImage(systemName: "moped"),
-            selectedImage: nil
-        )
-        
         contactsVC.tabBarItem = UITabBarItem(
-            title: "Бронь",
+            title: "Контакты",
             image: UIImage(systemName: "phone"),
             selectedImage: nil
         )
         
-        self.viewControllers = [menuNavController, deliveryVC, contactsVC]
+        self.viewControllers = [menuNavController, contactsVC]
         self.tabBar.layer.masksToBounds = true
         self.tabBar.layer.borderWidth = 0.3
     }
