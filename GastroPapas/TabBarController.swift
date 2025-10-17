@@ -30,6 +30,7 @@ final class TabBarController: UITabBarController {
         
         self.viewControllers = [menuNavController, contactsVC]
         self.tabBar.layer.masksToBounds = true
+        self.tabBar.tintColor = .white
         self.tabBar.layer.borderWidth = 0.3
     }
 }
