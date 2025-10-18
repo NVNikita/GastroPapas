@@ -9,6 +9,8 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
+    var menuData: MenuResponse?
+    
     private lazy var menuCollectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .vertical
@@ -26,22 +28,27 @@ class MenuViewController: UIViewController {
         setupUI()
         setupCollectionsView()
         setupConstraints()
+        loadMenuData()
     }
     
-    
-    let imageViews = ["zucchiniPancakes", "casserole", "porridge",
-                      "omelette", "friedEggs", "scramble"] // mock
-    let titles = ["Кабачковые оладьи с лососем", "Творожная запеканка", "Каша",
-                  "Омлет", "Яичница", "Скрэмбл"]
-    let descriptions: [String] = ["Творожная запеканка с курагой, клубничным соусом и сметаной",
-                                  "Кабачковы оладьи с слабосоленым лососем и листьями микс",
-                                  "Классическая каша на молоке с маслом",
-                                  "Омлет из трех яиц с зерновым хлебом",
-                                  "Яичница из трех яиц с зерновым хлебом",
-                                  "Скрэмбл из трех яиц с зерновым хлебом"
-    ] // mock
-    let prices = ["350р", "680р", "320р",
-                  "400р", "400р", "400р"]//mock
+    private func loadMenuData() {
+        guard let url = Bundle.main.url(forResource: "menu_data", withExtension: "json") else {
+            print("JSON not founds")
+            return
+        }
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            menuData = try decoder.decode(MenuResponse.self, from: data)
+            
+            menuCollectionView.reloadData()
+            
+            print("Load categoris: \(menuData?.menuCategory.count ?? 0)")
+        } catch {
+            print("Error loading: \(error)")
+        }
+    }
     
     private func setupNavigationBar() {
         title = "Основное меню"
@@ -70,11 +77,14 @@ class MenuViewController: UIViewController {
             menuCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
     }
+    
+    
 }
 
 extension MenuViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        imageViews.count
+        let allDishes = menuData?.menuCategory.flatMap { $0.dishes } ?? []
+        return allDishes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -83,11 +93,13 @@ extension MenuViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         
-        let image = imageViews[indexPath.row]
-        cell.photoImageView.image = UIImage(named: image)
-        cell.titleCellLabel.text = titles[indexPath.row]
-        cell.descriptionCellLabel.text = descriptions[indexPath.row]
-        cell.priceLabel.text = prices[indexPath.row]
+        let allDishes = menuData?.menuCategory.flatMap { $0.dishes } ?? []
+        let dish = allDishes[indexPath.item]
+        
+        cell.titleCellLabel.text = dish.name
+        cell.photoImageView.image = UIImage(named: dish.imageURL)
+        cell.priceLabel.text = "\(dish.price) ₽"
+        
         
         cell.backgroundColor = .white
         cell.layer.masksToBounds = true
@@ -98,15 +110,24 @@ extension MenuViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 extension MenuViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let spacing: CGFloat = 12
+        let totalSpacing = spacing * 3
+        let width = (collectionView.bounds.width - totalSpacing) / 2
+        let imageHeight = width - 16
+        let height = imageHeight + 50 + 20 + 44 + 32
         
-        return CGSize(width: (collectionView.bounds.width - 12) / 2, height: 350)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 12
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 12
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        return UIEdgeInsets(top: 16, left: 12, bottom: 16, right: 12)
     }
 }

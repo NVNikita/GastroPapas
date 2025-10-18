@@ -15,21 +15,14 @@ final class MenuCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         let image = UIImage(systemName: "photo")
         imageView.image = image
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
     lazy var titleCellLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .bold)
-        label.textColor = .black
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
-    
-    lazy var descriptionCellLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 10, weight: .medium)
         label.textColor = .black
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -47,9 +40,9 @@ final class MenuCollectionViewCell: UICollectionViewCell {
     
     lazy var addButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Заказать", for: .normal)
+        button.setTitle("Добавить ", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        button.titleLabel?.font = .systemFont(ofSize: 13, weight: .medium)
         button.backgroundColor = .systemRed
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 15
@@ -73,13 +66,11 @@ final class MenuCollectionViewCell: UICollectionViewCell {
         
         contentView.addSubview(photoImageView)
         contentView.addSubview(titleCellLabel)
-        contentView.addSubview(descriptionCellLabel)
         contentView.addSubview(addButton)
         contentView.addSubview(priceLabel)
         
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         titleCellLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionCellLabel.translatesAutoresizingMaskIntoConstraints = false
         addButton.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -89,25 +80,20 @@ final class MenuCollectionViewCell: UICollectionViewCell {
             photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
+            photoImageView.heightAnchor.constraint(equalTo: photoImageView.widthAnchor),
             
-            titleCellLabel.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 10),
-            titleCellLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            titleCellLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            titleCellLabel.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 8),
+            titleCellLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            titleCellLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            descriptionCellLabel.topAnchor.constraint(equalTo: titleCellLabel.bottomAnchor, constant: 10),
-            descriptionCellLabel.leadingAnchor.constraint(equalTo: titleCellLabel.leadingAnchor),
-            descriptionCellLabel.trailingAnchor.constraint(equalTo: titleCellLabel.trailingAnchor),
+            priceLabel.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -8),
+            priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            addButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            addButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            addButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            addButton.heightAnchor.constraint(equalToConstant: 44),
-            
-            priceLabel.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -5),
-            priceLabel.leadingAnchor.constraint(equalTo: titleCellLabel.leadingAnchor),
-            priceLabel.trailingAnchor.constraint(equalTo: titleCellLabel.trailingAnchor),
-            
+            addButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            addButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            addButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            addButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
