@@ -13,6 +13,7 @@ final class TabBarController: UITabBarController {
         
         let menuVC = MenuViewController()
         let contactsVC = ContactsViewController()
+        let orderBasket = OrderBasketViewController()
         
         let menuNavController = UINavigationController(rootViewController: menuVC)
         
@@ -28,7 +29,13 @@ final class TabBarController: UITabBarController {
             selectedImage: nil
         )
         
-        self.viewControllers = [menuNavController, contactsVC]
+        orderBasket.tabBarItem = UITabBarItem(
+            title: "Корзина",
+            image: UIImage(systemName: "basket"),
+            selectedImage: nil
+        )
+        
+        self.viewControllers = [menuNavController, contactsVC, orderBasket]
         self.tabBar.layer.masksToBounds = true
         self.tabBar.tintColor = .white
         self.tabBar.layer.borderWidth = 0.3
