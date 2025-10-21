@@ -98,13 +98,25 @@ extension MenuViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.titleCellLabel.text = dish.name
         cell.photoImageView.image = UIImage(named: dish.imageURL)
-        cell.priceLabel.text = "\(dish.price) ₽"
+        cell.priceLabel.text = "\(dish.price)₽"
         
         
         cell.backgroundColor = .white
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 15
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let allDishes = menuData?.menuCategory.flatMap { $0.dishes } ?? []
+        let selectedDish = allDishes[indexPath.item]
+        
+        let dishVC = DishViewController()
+        dishVC.dish = selectedDish
+        
+        present(dishVC, animated: true)
     }
 }
 
