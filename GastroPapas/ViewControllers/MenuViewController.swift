@@ -20,6 +20,13 @@ class MenuViewController: UIViewController {
         collectionView.backgroundColor = .black
         return collectionView
     }()
+    
+    private lazy var searchField: UISearchTextField = {
+        let searchField = UISearchTextField()
+        searchField.placeholder = "Поиск по блюдам"
+        searchField.backgroundColor = .clear
+        return searchField
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,12 +62,18 @@ class MenuViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
+    private func setupSearchBar() {
+        searchField.delegate = self
+    }
+    
     private func setupUI() {
         view.backgroundColor = .black
         
         view.addSubview(menuCollectionView)
+        view.addSubview(searchField)
         
         menuCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        searchField.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupCollectionsView() {
@@ -71,10 +84,15 @@ class MenuViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            searchField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            searchField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            
+            
             menuCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             menuCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             menuCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            menuCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            menuCollectionView.topAnchor.constraint(equalTo: searchField.bottomAnchor)
         ])
     }
     
@@ -142,4 +160,8 @@ extension MenuViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 16, left: 12, bottom: 16, right: 12)
     }
+}
+
+extension MenuViewController: UITextFieldDelegate {
+    
 }
